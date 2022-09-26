@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <a aria-hidden="true">&times;;</a>
+            </button>
+        </div>
+        
+    {% endfor %}
+
+
+    {% if codigo %}
+        <h1>Hello {{ codigo }}</h1>
+        <br/>
+        {% for our_cursos in our_curso %}
+            {{ our_cursos.codigo }}. {{ our_cursos.nombre }} - {{ our_cursos.credito}}<br/>
+        {% endfor %}
+    {% else %}
+        <h1>Agregar Curso</h1>
+        <br/>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.codigo.label(class="form-label") }}
+            {{ form.codigo(class="form-control") }}
+            <br/>
+            {{ form.nombre.label(class="form-label") }}
+            {{ form.nombre(class="form-control") }}
+            <br/>
+            {{ form.credito.label(class="form-label") }}
+            {{ form.credito(class="form-control") }}
+            <br/>
+            {{ form.submit() }}
+        </form>
+
+        <!--JacK-->
+        <br/>
+        <table class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Crédito</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for our_cursos in our_curso %}
+              <tr>
+                <th scope="row">{{ our_cursos.codigo }}</th>
+                <td>{{ our_cursos.nombre }}</td>
+                <td>{{ our_cursos.credito }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ url_for('update_curso', codigo=our_cursos.codigo) }}">editar</a>
+                    <a class="btn btn-danger" href="{{ url_for('delete_curso', codigo=our_cursos.codigo) }}">eliminar</a>
+                    <br>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!--JacK-->
+
+
+
+        <br/>
+        {% for our_cursos in our_curso %}
+            {{ our_cursos.codigo }}. {{ our_cursos.nombre }} - {{ our_cursos.credito}}<br/>
+        {% endfor %}
+
+    {% endif %}
+{% endblock %}

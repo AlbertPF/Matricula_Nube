@@ -1,0 +1,52 @@
+
+CREATE TABLE Autor
+(
+	codigo_autor         CHAR(18) NOT NULL,
+	nombre               VARCHAR(60) NULL,
+	PRIMARY KEY (codigo_autor)
+);
+
+
+
+CREATE TABLE Categoria
+(
+	estado               boolean NULL,
+	nombre               VARCHAR(60) NULL,
+	codigo_categ         CHAR(18) NOT NULL,
+	PRIMARY KEY (codigo_categ)
+);
+
+
+
+CREATE TABLE Ejemplar
+(
+	codigo_ejem          CHAR(18) NOT NULL,
+	PRIMARY KEY (codigo_ejem)
+);
+
+
+
+CREATE TABLE Libro_Tipo_Choices
+(
+	codigo_tipo          CHAR(10) NOT NULL,
+	tipo                 VARCHAR(30) NULL,
+	PRIMARY KEY (codigo_tipo)
+);
+
+
+
+CREATE TABLE Libro
+(
+	codigo_libro         CHAR(18) NOT NULL,
+	nombre               VARCHAR(60) NULL,
+	codigo_autor         CHAR(18) NOT NULL,
+	codigo_categ         CHAR(18) NOT NULL,
+	codigo_ejem          CHAR(18) NOT NULL,
+	codigo_tipo          CHAR(10) NOT NULL,
+	PRIMARY KEY (codigo_libro),
+	FOREIGN KEY (codigo_autor) REFERENCES Autor (codigo_autor),
+	FOREIGN KEY (codigo_categ) REFERENCES Categoria (codigo_categ),
+	FOREIGN KEY (codigo_ejem) REFERENCES Ejemplar (codigo_ejem),
+	FOREIGN KEY (codigo_tipo) REFERENCES Libro_Tipo_Choices (codigo_tipo)
+);
+

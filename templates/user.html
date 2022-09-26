@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% if nombre %}
+        <h1>Hello {{ nombre }}</h1>
+        <img src="../static/imagenes/Sasuke_Uchiha.jpg" alt="">
+        <script src="../static/js/myfile.js"></script>
+    {% else %}
+        <h1>What's your name?!</h1>
+        <br/>
+        <form action="POST">
+            {{ form.hedden_tag() }}
+            {{ form.nombre.label }}
+            {{ form.nombre() }}
+            <br/>
+            {{ form.nombre }}
+        </form>
+    {% endif %}
+    
+{% endblock %}

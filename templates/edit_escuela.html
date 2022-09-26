@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <a aria-hidden="true">&times;;</a>
+            </button>
+        </div>
+        
+    {% endfor %}
+
+
+    {% if nombre %}
+        <h1>Hello {{ nombre }}</h1>
+        <br/>        
+        <table class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">codigo</th>
+                <th scope="col">nombre</th>
+                <th scope="col">duracion</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for our_escuelas in our_escuela %}
+              <tr>
+                <th scope="row">{{ our_escuelas.codigo }}</th>
+                <td>{{ our_escuelas.nombre }}</td>
+                <td>{{ our_escuelas.duracion}}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ url_for('update_escuela', codigo=our_escuelas.codigo) }}">Editar</a>
+                    <a class="btn btn-danger" href="{{ url_for('delete_escuela', codigo =our_escuelas.codigo) }}">Eliminar</a>
+                    <br>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>         
+    {% else %}
+        <h1>Desea editar la escuela?</h1>
+        <br/>
+        <form action="/Escuela_edit/{{esc.codigo}}" method="POST">
+            
+            {{ form.hidden_tag() }}
+            <label for="exampleFormControlInput1" class="form-label">Código</label>
+            <input type="text" class="form-control" name="codigo" value="{{esc.codigo}}" required>
+            <br>
+            <label for="exampleFormControlInput1" class="form-label">Nombre</label>
+            <input type="text" class="form-control" name="nombre" value="{{esc.nombre}}" required>
+            <br>
+            <label for="exampleFormControlTextarea1" class="form-label">duracion</label>
+            <input type="text" class="form-control" name="duracion" value="{{esc.duracion}}" required>
+            <br/>
+            {{ form.submit() }}
+            
+        </form>
+    {% endif %}
+{% endblock %}

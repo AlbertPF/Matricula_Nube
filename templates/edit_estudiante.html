@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <a aria-hidden="true">&times;;</a>
+            </button>
+        </div>
+        
+    {% endfor %}
+
+
+    {% if nombres %}
+        <h1>Hello {{ nombres }}</h1>
+        <br/>        
+        <table class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">DNI</th>
+                <th scope="col">apellidos</th>
+                <th scope="col">nombres</th>
+                <th scope="col">feNacimiento</th>
+                <th scope="col">sexo</th>
+                <th scope="col">codEscuela</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for our_estudiantes in our_estudiante %}
+              <tr>
+                <th scope="row">{{ our_estudiantes.id }}</th>
+                <td>{{ our_estudiantes.DNI }}</td>
+                <td>{{ our_estudiantes.apellidos }}</td>
+                <td>{{ our_estudiantes.nombres }}</td>
+                <td>{{ our_estudiantes.feNacimiento }}</td>
+                <td>{{ our_estudiantes.sexo}}</td>
+                <td>{{ our_estudiantes.codEscuela}}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ url_for('update_estudiante', id=our_estudiantes.id) }}">Editar</a>
+                    <a class="btn btn-danger" href="{{ url_for('delete_estudiante', id =our_estudiantes.id) }}">Eliminar</a>
+                    <br>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+          </table>         
+    {% else %}
+        <h1>Desea editar el estudiante?</h1>
+        <br/>
+        <form action="/estudiante_edit/{{est.id}}" method="POST">
+            
+            {{ form.hidden_tag() }}
+            <label for="exampleFormControlInput1" class="form-label">DNI</label>
+            <input type="text" class="form-control" name="DNI" value="{{est.DNI}}" required>
+            <br>
+            <label for="exampleFormControlInput1" class="form-label">Apellidos</label>
+            <input type="text" class="form-control" name="apellidos" value="{{est.apellidos}}" required>
+            <br>
+            <label for="exampleFormControlTextarea1" class="form-label">Nombres</label>
+            <input type="text" class="form-control" name="nombres" value="{{est.nombres}}" required>
+            <br/>
+            <label for="exampleFormControlTextarea1" class="form-label">Fecha Nacimiento</label>
+            <input type="text" class="form-control" name="feNacimiento" value="{{est.feNacimiento}}" required>
+            <br/>
+            <label for="exampleFormControlInput1" class="form-label">Sexo</label>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Masculino" id="defaultCheck1" name="sexo">
+                <label class="form-check-label" for="defaultCheck1">
+                    Masculino
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" value="Femenino" id="defaultCheck2" name="sexo">
+                <label class="form-check-label" for="defaultCheck2">
+                    Femenino
+                </label>
+            </div> 
+            <!--<input type="text" class="form-control" name="sexo" value="{{est.sexo}}" required>-->
+            <br/>
+            <label for="exampleFormControlTextarea1" class="form-label">Código Escuela</label>
+            <input type="text" class="form-control" name="codEscuela" value="{{est.codEscuela}}" required>
+            <br/>
+            {{ form.submit() }}
+            
+        </form>
+    {% endif %}
+{% endblock %}

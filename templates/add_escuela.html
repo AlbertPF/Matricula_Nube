@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {% for message in get_flashed_messages() %}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                <a aria-hidden="true">&times;;</a>
+            </button>
+        </div>
+        
+    {% endfor %}
+
+
+    {% if codigo %}
+        <h1>Hello {{ codigo }}</h1>
+        <br/>
+        {% for our_escuelas in our_escuela %}
+            {{ our_escuelas.codigo }}. {{ our_escuelas.nombre }} - {{ our_escuelas.duracion}}<br/>
+        {% endfor %}
+    {% else %}
+        <h1>Agregar Escuela</h1>
+        <br/>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            {{ form.codigo.label(class="form-label") }}
+            {{ form.codigo(class="form-control") }}
+            <br/>
+            {{ form.nombre.label(class="form-label") }}
+            {{ form.nombre(class="form-control") }}
+            <br/>
+            {{ form.duracion.label(class="form-label") }}
+            {{ form.duracion(class="form-control") }}
+            <br/>
+            {{ form.submit() }}
+        </form>
+
+        <!--JacK-->
+        <br/>
+        <table class="table table-striped table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Código</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Duración</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+            {% for our_escuelas in our_escuela %}
+              <tr>
+                <th scope="row">{{ our_escuelas.codigo }}</th>
+                <td>{{ our_escuelas.nombre }}</td>
+                <td>{{ our_escuelas.duracion }}</td>
+                <td>
+                    <a class="btn btn-primary" href="{{ url_for('update_escuela', codigo=our_escuelas.codigo) }}">editar</a>
+                    <a class="btn btn-danger" href="{{ url_for('delete_escuela', codigo=our_escuelas.codigo) }}">eliminar</a>
+                    <br>
+                </td>
+              </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <!--JacK-->
+
+
+
+        <br/>
+        {% for our_escuelas in our_escuela %}
+            {{ our_escuelas.codigo }}. {{ our_escuelas.nombre }} - {{ our_escuelas.duracion}}<br/>
+        {% endfor %}
+
+    {% endif %}
+{% endblock %}
