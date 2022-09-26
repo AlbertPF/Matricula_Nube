@@ -296,7 +296,6 @@ class EstudianteForm(FlaskForm):
     codEscuela = StringField("Código de Escuela", validators=[DataRequired()])
     submit = SubmitField('Submit')
 
-
 @app.route('/estudiante/add', methods=['GET','POST'])
 def add_estudiante():
     nombres=None
@@ -315,15 +314,14 @@ def add_estudiante():
         form.codEscuela.data=''
         flash("From Submitted Successfully")
     our_estudiante = Estudiante.query.order_by(Estudiante.nombres)
+    escu=Escuela.query.order_by(Escuela.codigo)
 
     return render_template('add_estudiante.html',
     nombres=nombres,
     form=form,
-    our_estudiante = our_estudiante)
+    our_estudiante = our_estudiante, escu=escu)
 
 
-#jakc
-#===========Upadate Escuela===============
 @app.route('/estudiante_edit/<id>',methods=['GET','POST'])
 def update_estudiante(id):
     est=Estudiante.query.get(id)
@@ -347,8 +345,66 @@ def update_estudiante(id):
     form.codEscuela.data=''
     flash("From Submitted Successfully")
     our_estudiante=Estudiante.query.order_by(Estudiante.nombres)
+    escu=Escuela.query.order_by(Escuela.codigo)
+    escuel=Escuela.query.get(est.codEscuela)
 
-    return render_template('edit_estudiante.html',est=est,form=form,nombres=nombres,our_estudiante=our_estudiante)
+    return render_template('edit_estudiante.html',est=est,form=form,nombres=nombres,our_estudiante=our_estudiante,escu=escu,escuel=escuel)
+
+
+# @app.route('/estudiante/add', methods=['GET','POST'])
+# def add_estudiante():
+#     nombres=None
+#     form=EstudianteForm()
+#     #validate form
+#     if form.validate_on_submit():
+#         escuela = Estudiante(DNI=form.DNI.data, apellidos = form.apellidos.data, nombres = form.nombres.data, feNacimiento = form.feNacimiento.data, sexo = form.sexo.data, codEscuela = form.codEscuela.data )
+#         db.session.add(escuela)
+#         db.session.commit()
+#         nombres=form.nombres.data
+#         form.DNI.data=''
+#         form.apellidos.data=''
+#         form.nombres.data=''
+#         form.feNacimiento.data=''
+#         form.sexo.data=''
+#         form.codEscuela.data=''
+#         flash("From Submitted Successfully")
+#     our_estudiante = Estudiante.query.order_by(Estudiante.nombres)
+
+#     return render_template('add_estudiante.html',
+#     nombres=nombres,
+#     form=form,
+#     our_estudiante = our_estudiante)
+
+
+
+
+#jakc
+#===========Upadate Escuela===============
+# @app.route('/estudiante_edit/<id>',methods=['GET','POST'])
+# def update_estudiante(id):
+#     est=Estudiante.query.get(id)
+#     form=EstudianteForm()
+#     if form.validate_on_submit():
+#         est.DNI=form.DNI.data
+#         est.apellidos=form.apellidos.data
+#         est.nombres=form.nombres.data
+#         est.feNacimiento=form.feNacimiento.data
+#         est.sexo=form.sexo.data
+#         est.codEscuela=form.codEscuela.data
+    
+#         db.session.commit()
+
+#     nombres=form.nombres.data
+#     form.DNI.data=''
+#     form.apellidos.data=''
+#     form.nombres.data=''
+#     form.feNacimiento.data=''
+#     form.sexo.data=''
+#     form.codEscuela.data=''
+#     flash("From Submitted Successfully")
+#     our_estudiante=Estudiante.query.order_by(Estudiante.nombres)
+
+#     return render_template('edit_estudiante.html',est=est,form=form,nombres=nombres,our_estudiante=our_estudiante)
 
 @app.route('/delete_estudiante/<id>')
 def delete_estudiante(id):
@@ -368,6 +424,7 @@ class MatriculaForm(FlaskForm):
 
 #matricula1= Matricula(codigo='001', codEstudiante='1',codCurso="ISA803")
 
+
 @app.route('/matricula/add', methods=['GET','POST'])
 def add_matricula():
     codEstudiante=None
@@ -383,15 +440,13 @@ def add_matricula():
         form.codCurso.data=''
         flash("From Submitted Successfully")
     our_matricula = Matricula.query.order_by(Matricula.codEstudiante)
+    cur=Curso.query.order_by(Curso.codigo)
 
     return render_template('add_matricula.html',
     codEstudiante=codEstudiante,
     form=form,
-    our_matricula= our_matricula)
+    our_matricula= our_matricula,cur=cur)
 
-
-#jakc
-#Upadate User
 @app.route('/matricula_edit/<codigo>',methods=['GET','POST'])
 def update_matricula(codigo):
     mat=Matricula.query.get(codigo)
@@ -409,8 +464,54 @@ def update_matricula(codigo):
     form.codCurso.data=''
     flash("From Submitted Successfully")
     our_matricula=Matricula.query.order_by(Matricula.codEstudiante)
+    cur=Curso.query.order_by(Curso.codigo)
+    curs=Curso.query.get(mat.codCurso)
+    return render_template('edit_matricula.html',mat=mat,form=form,codEstudiante=codEstudiante,our_matricula=our_matricula,cur=cur,curs=curs)
 
-    return render_template('edit_matricula.html',mat=mat,form=form,codEstudiante=codEstudiante,our_matricula=our_matricula)
+
+# @app.route('/matricula/add', methods=['GET','POST'])
+# def add_matricula():
+#     codEstudiante=None
+#     form=MatriculaForm()
+#     #validate form
+#     if form.validate_on_submit():
+#         matricula = Matricula(codigo=form.codigo.data, codEstudiante = form.codEstudiante.data, codCurso = form.codCurso.data)
+#         db.session.add(matricula)
+#         db.session.commit()
+#         codEstudiante=form.codEstudiante.data
+#         form.codigo.data=''
+#         form.codEstudiante.data=''
+#         form.codCurso.data=''
+#         flash("From Submitted Successfully")
+#     our_matricula = Matricula.query.order_by(Matricula.codEstudiante)
+
+#     return render_template('add_matricula.html',
+#     codEstudiante=codEstudiante,
+#     form=form,
+#     our_matricula= our_matricula)
+
+
+#jakc
+#Upadate User
+# @app.route('/matricula_edit/<codigo>',methods=['GET','POST'])
+# def update_matricula(codigo):
+#     mat=Matricula.query.get(codigo)
+#     form=MatriculaForm()
+#     if form.validate_on_submit():
+#         mat.codigo=form.codigo.data
+#         mat.codEstudiante=form.codEstudiante.data
+#         mat.codCurso=form.codCurso.data
+
+#         db.session.commit()
+
+#     codEstudiante=form.codEstudiante.data
+#     form.codigo.data=''
+#     form.codEstudiante.data=''
+#     form.codCurso.data=''
+#     flash("From Submitted Successfully")
+#     our_matricula=Matricula.query.order_by(Matricula.codEstudiante)
+
+#     return render_template('edit_matricula.html',mat=mat,form=form,codEstudiante=codEstudiante,our_matricula=our_matricula)
 
 @app.route('/delete_matricula/<codigo>')
 def delete_matricula(codigo):

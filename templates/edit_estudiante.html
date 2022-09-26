@@ -82,7 +82,14 @@
             <!--<input type="text" class="form-control" name="sexo" value="{{est.sexo}}" required>-->
             <br/>
             <label for="exampleFormControlTextarea1" class="form-label">Código Escuela</label>
-            <input type="text" class="form-control" name="codEscuela" value="{{est.codEscuela}}" required>
+            <select class="form-select" name="codEscuela" aaria-label=".form-select-lg example" required>
+                <option selected value="{{escuel.codigo}}">{{escuel.nombre}}</option>
+                {% for escuela in escu %}
+                  <option value="{{escuela.codigo}}">{{escuela.nombre}}</option>
+  
+                {% endfor %}
+              </select>
+            <!-- <input type="text" class="form-control" name="codEscuela" value="{{est.codEscuela}}" required> -->
             <br/>
             {{ form.submit() }}
             

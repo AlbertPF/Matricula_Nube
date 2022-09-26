@@ -31,7 +31,14 @@
             {{ form.codEstudiante(class="form-control") }}
             <br/>
             {{ form.codCurso.label(class="form-label") }}
-            {{ form.codCurso(class="form-control") }}
+            <select class="form-select" name="codCurso" aaria-label=".form-select-lg example" required>
+                <option selected></option>
+                {% for curso in cur %}
+                 <option value="{{curso.codigo}}">{{curso.nombre}}</option>
+                {% endfor %}
+            </select>
+
+            <!-- {{ form.codCurso(class="form-control") }} -->
             <br/>
             {{ form.submit() }}
         </form>

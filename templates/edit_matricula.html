@@ -52,8 +52,15 @@
             <label for="exampleFormControlInput1" class="form-label">codEstudiante/label>
             <input type="text" class="form-control" name="codEstudiante" value="{{mat.codEstudiante}}" required>
             <br>
-            <label for="exampleFormControlTextarea1" class="form-label">codCurso</label>
-            <input type="text" class="form-control" name="codCurso" value="{{mat.codCurso}}" required>
+            <label for="exampleFormControlTextarea1" class="form-label">Nombre del Curso</label>
+            <select class="form-select" name="codCurso" aaria-label=".form-select-lg example" required>
+              <option selecetd value="{{curs.codigo}}">{{curs.nombre}}</option>
+              {% for curso in cur %}
+                <option value="{{curso.codigo}}">{{curso.nombre}}</option>
+
+              {% endfor %}
+            </select>
+            <!-- <input type="text" class="form-control" name="codCurso" value="{{mat.codCurso}}" required> -->
             <br/>
             {{ form.submit() }}
             

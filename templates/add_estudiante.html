@@ -53,7 +53,13 @@
             <!--{{ form.sexo(class="form-control") }}  -->
             <br/>
             {{ form.codEscuela.label(class="form-label") }}
-            {{ form.codEscuela(class="form-control") }}
+            <select class="form-select" name="codEscuela" aaria-label=".form-select-lg example" required>
+                <option selected></option>
+                {% for escuela in escu %}
+                 <option value="{{escuela.codigo}}">{{escuela.nombre}}</option>
+                {% endfor %}
+            </select>
+            <!-- {{ form.codEscuela(class="form-control") }} -->
             <br/>
             {{ form.submit() }}
         </form>
